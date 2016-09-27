@@ -1,0 +1,60 @@
+<ion-view>
+   
+<ion-nav-buttons side="left">
+  <button class="button button-icon icon ion-ios-people" ng-click="doSomething()"></button>
+</ion-nav-buttons>
+
+<ion-nav-buttons side="right">
+  <button class="button button-icon icon ion-ios-cog" ng-click="doSomething()"></button>
+</ion-nav-buttons>
+<ion-nav-title>
+        <p class="red text-center">Brandon Nguyen</p>
+</ion-nav-title>
+
+<ion-content>
+    <div class="row item">
+        <div class="item-avatar profileavatar col col-xs-3">
+           <img ng-src="img/profile.jpg">
+        </div>
+        <div class="col col-xs-9">
+        <div class="row">
+            <div class="col col-xs-3">
+                <p class="text-center"><b class="red">2</b><br>
+                Posts</p>
+            </div>
+            <div class="col col-xs-3">
+                <p class="text-center"><b class="red">8</b><br>
+                Followers</p>
+             </div>
+            <div class="col col-xs-3">
+                <p class="text-center"><b class="red">2</b><br>
+                Following</p>
+             </div>
+        </div>
+        <button class="button button-assertive profilebutton" ng-click="doSomething()">Edit Profile</button>
+        </div>
+    </div>
+    <div>
+        <p class="margined red">Posts:</p>
+        <div ng-repeat="picture in pictures" ng-if="$index % 3 == 0" class="row">
+            <div class="col col-33">
+                <img ng-src="{{pictures[$index]}}" class="searchpics"><br/>
+                <p style="text-align: center;">100 Likes</p>
+            </div>
+            <div class="col col-33">
+                <img ng-src="{{pictures[$index + 1]}}" class="searchpics"><br />
+                <p style="text-align: center;">100 Likes</p>
+            </div>
+            <div class="col col-33">
+                <img ng-src="{{pictures[$index + 2]}}" class="searchpics"><br />
+                <p style="text-align: center;">100 Likes</p>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</ion-content>
+
+</ion-view>
