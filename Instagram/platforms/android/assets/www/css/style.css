@@ -76,3 +76,7 @@
     max-width: 100px!important;
     border: groove indianred;
 }
+/*camera css*/
+.maxWidth{
+    width: 100%
+}
