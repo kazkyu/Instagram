@@ -23,17 +23,21 @@ angular.module('starter.controllers', [])
     $scope.pictures = Pictures.all();
 
 })
-
-
-
-.controller('ProfileCtrl', function ($scope, Pictures, Profile, Posts, Camera) {
+.controller('ProfileCtrl', function ($rootScope,$scope, Pictures, Profile, Posts, Camera, $state) {
     $scope.profile = Profile.getProfile();
     $scope.pictures = Pictures.all();
     $scope.posts = Posts.all();
     $scope.like = true;
+    $rootScope.$on('reload_profile', function () {
+        $scope.profile = Profile.getProfile();        
+    });
     $scope.toggleLike = function () {
         $scope.like = $scope.like === false ? true : false;
     };
+    $scope.signout = function () {
+        Profile.resetProfile();
+        $state.go('login');
+    }
 })
 .controller('CameraCtrl', function ($scope, Camera, Pictures, Posts, Profile, $state) {
     $scope.image = null;
@@ -82,5 +86,45 @@ angular.module('starter.controllers', [])
         });
     };
 
-});
+})
+.controller('LoginCtrl', function ($rootScope, $scope, LoginService, $ionicPopup, $state) {
+    $scope.data = {};
+
+    $scope.login = function () {
+        LoginService.loginUser($scope.data.username, $scope.data.password).success(function (data) {            
+            $rootScope.$broadcast('reload_profile');
+            $state.go('tab.home');
+            $scope.data = {};
+        }).error(function (data) {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Login failed!',
+                template: 'Please check your credentials!'
+            });
+        });
+    }
+
+    $scope.signup = function () {
+        $state.go('signup');
+    }
+})
+.controller('SignupCtrl', function ($rootScope,$scope, SignupService, $ionicPopup, $state) {
+    $scope.data = {};
+
+    $scope.back = function () {
+        $state.go('login');
+    }
+
+    $scope.create = function () {
+        SignupService.createUser($scope.data).success(function (data) {
+            $rootScope.$broadcast('reload_profile');
+            $state.go('tab.home');
+            $scope.data = {};
+        }).error(function (data) {
+            var alertPopup = $ionicPopup.alert({
+                title: 'Create failed!',
+                template: 'Something went wrong!'
+            });
+        });
+    }
+})
 

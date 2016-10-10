@@ -54,9 +54,23 @@ angular.module('starter.services', [])
         face: 'img/profile.jpg',
     }
 
+    var length = 0;
+
     return {
         getProfile: function () {
             return Profile;
+        },
+        setProfile: function (profile) {
+            Profile = profile;
+        },
+        resetProfile: function () {
+            Profile = {};
+        },
+        addLength: function () {
+            length += 1;
+        },
+        getLength: function () {
+            return length;
         }
     }
 })
@@ -130,4 +144,77 @@ angular.module('starter.services', [])
         }
     }
 
+})
+.service('LoginService', function ($q, $http, Profile) {
+    return {
+        loginUser: function(name, pw) {
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+
+            var link = 'http://khuongstagram.herokuapp.com/users/login';
+
+            $http.post(link, { username: name, password: pw }).then(function (res) {                
+                if (res.data == false)
+                {
+                    deferred.reject('Wrong credentials.');
+                }
+                else
+                {
+                    Profile.setProfile(res.data);
+                    deferred.resolve('Welcome ' + name + '!');
+                }
+            });
+    
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+
+            return promise;
+        }
+    }
+})
+.service('SignupService', function ($q, $http,Profile) {
+    return {
+        createUser: function (user) {
+            var deferred = $q.defer();
+            var promise = deferred.promise;
+
+            var link = 'http://khuongstagram.herokuapp.com/users/create';
+
+            $http.post(link, { username: user.username, password: user.password, firstname: user.firstname, lastname: user.lastname }).then(function (res) {
+                
+                if (res.data == false) {
+                    deferred.reject('Wrong credentials.');
+                }
+                else {
+                    var link = 'http://khuongstagram.herokuapp.com/users/' + user.username;                    
+                    $http.get(link).then(function (res) {                        
+                        if (res.data.length == 0) {
+                            deferred.reject('Something went wrong.');
+                        }
+                        else {
+                            Profile.setProfile(res.data[0]);
+                            deferred.resolve('Welcome ' + name + '!');
+                        }
+                    });
+                }
+            });
+
+            promise.success = function (fn) {
+                promise.then(fn);
+                return promise;
+            }
+            promise.error = function (fn) {
+                promise.then(null, fn);
+                return promise;
+            }
+
+            return promise;
+        }
+    }
 });

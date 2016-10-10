@@ -1,28 +1,13 @@
-﻿<ion-view hide-nav-bar="true">
-    
-    
-    <ion-content>
-        <div class="row">
-            <div class="col col-50">
-                <button class="button button-icon icon centered" ng-click="value=1">FOLLOWING</button>
-            </div>
-            <div class="col col-50">
-                <button class="button button-icon icon centered" ng-click="value=0">YOU</button>
-            </div>
+﻿    
+    <ion-content class="padding">
+        <div class="list list-inset">
+            <label class="item item-input">
+                <input type="text" placeholder="Username" ng-model="data.username">
+            </label>
+            <label class="item item-input">
+                <input type="password" placeholder="Password" ng-model="data.password">
+            </label>
         </div>
-        <div ng-init="value=1">
-        <div ng-if="value==1">
-            <div class="item item-avatar" ng-repeat="post in posts">
-                <img ng-src="{{post.face}}">
-                <p class="padding-top">{{post.name}} is following you </p>
-            </div>
-        </div>
-        <div ng-if="value==0">
-            <div class="item item-avatar" ng-repeat="post in posts">
-                <img ng-src="{{post.face}}">
-                <p class="padding-top">{{post.name}} liked your posts </p>
-            </div>
-        </div>
-        </div>
-  </ion-content>
-</ion-view>
+        <button class="button button-block button-calm" ng-click="login()">Login</button>
+        <p>No Account? <a href="#">Click Here</a></p>
+    </ion-content>
